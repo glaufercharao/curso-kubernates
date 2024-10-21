@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: msvc-usuarios
+  datasource:
+    url:
+    password:
+    username:
+server:
+  port: 8001
