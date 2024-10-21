@@ -27,6 +27,16 @@ public class UsuarioServiceImpl implements UsuarioService {
   @Override
   @Transactional
   public Usuario save(Usuario usuario) {
+    if(usuario.getId() != null){
+      Optional<Usuario> usuarioDB = findById(usuario.getId());
+      if (!usuarioDB.isPresent()){
+        throw new RuntimeException("Usuario não encontrado!");
+      }
+      usuarioDB.get().setNome(usuario.getNome());
+      usuarioDB.get().setEmail(usuario.getEmail());
+      usuarioDB.get().setPassword(usuario.getPassword());
+      return repository.save(usuarioDB.get());
+    }
     return repository.save(usuario);
   }
 
