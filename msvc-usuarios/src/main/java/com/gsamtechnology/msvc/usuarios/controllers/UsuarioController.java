@@ -36,7 +36,7 @@ public class UsuarioController {
       return ResponseEntity.status(HttpStatus.CREATED).body(service.save(usuario));
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Usuario> removeById(@PathVariable Long id){
       service.delete(id);
       return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
