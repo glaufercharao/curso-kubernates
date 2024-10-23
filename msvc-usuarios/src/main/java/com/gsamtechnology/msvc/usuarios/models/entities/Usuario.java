@@ -1,6 +1,8 @@
 package com.gsamtechnology.msvc.usuarios.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "tb.usuarios")
@@ -9,9 +11,13 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
     private String nome;
     @Column(unique = true)
+    @NotEmpty
+    @Email
     private String email;
+    @NotEmpty
     private String password;
 
     public Usuario() {

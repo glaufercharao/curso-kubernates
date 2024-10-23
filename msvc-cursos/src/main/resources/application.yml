@@ -2,9 +2,9 @@ spring:
   application:
     name: msvc-cursos
   datasource:
-    url: jdbc:postgresql://localhost:5432/cursos_db
-    password: toor
-    username: root
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5433/curso_db
     driver-class-name: org.postgresql.Driver
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect

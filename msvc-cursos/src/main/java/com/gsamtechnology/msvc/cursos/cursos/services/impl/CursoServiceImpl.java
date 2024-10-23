@@ -1,6 +1,6 @@
 package com.gsamtechnology.msvc.cursos.cursos.services.impl;
 
-import com.gsamtechnology.msvc.cursos.cursos.models.entity.Curso;
+import com.gsamtechnology.msvc.cursos.cursos.models.entities.Curso;
 import com.gsamtechnology.msvc.cursos.cursos.repositories.CursoRepository;
 import com.gsamtechnology.msvc.cursos.cursos.services.CursoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class CursoServiceImpl implements CursoService {
     if(curso.getId() != null){
       Optional<Curso> cursoDB = findById(curso.getId());
       if (!cursoDB.isPresent()){
-        throw new RuntimeException("Usuario não encontrado!");
+        throw new RuntimeException("Curso não encontrado!");
       }
       cursoDB.get().setNome(curso.getNome());
       return repository.save(cursoDB.get());

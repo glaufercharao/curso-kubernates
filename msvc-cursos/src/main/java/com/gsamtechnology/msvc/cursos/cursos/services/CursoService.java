@@ -1,6 +1,6 @@
 package com.gsamtechnology.msvc.cursos.cursos.services;
 
-import com.gsamtechnology.msvc.cursos.cursos.models.entity.Curso;
+import com.gsamtechnology.msvc.cursos.cursos.models.entities.Curso;
 
 import java.util.List;
 import java.util.Optional;
