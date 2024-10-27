@@ -1,8 +1,10 @@
 package com.gsamtechnology.msvc.usuarios.services.impl;
 
+import com.gsamtechnology.msvc.usuarios.client.CursoClientRest;
 import com.gsamtechnology.msvc.usuarios.models.entities.Usuario;
 import com.gsamtechnology.msvc.usuarios.repositories.UsuarioRepository;
 import com.gsamtechnology.msvc.usuarios.services.UsuarioService;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,8 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
   @Autowired
   private UsuarioRepository repository;
+  @Autowired
+  private CursoClientRest clientRest;
   @Override
   @Transactional(readOnly = true)
   public List<Usuario> findAll() {
@@ -27,6 +31,7 @@ public class UsuarioServiceImpl implements UsuarioService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Optional<Usuario> findByEmail(String email) {
     return repository.findByEmail(email);
   }
@@ -51,9 +56,15 @@ public class UsuarioServiceImpl implements UsuarioService {
   @Transactional
   public void delete(Long id) {
     repository.deleteById(id);
+    try {
+      clientRest.deleteCursoUsuarioById(id);
+    }catch (FeignException feignException){
+      throw new RuntimeException("Erro ao remover usuario no serviço cursos.");
+    }
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Usuario> findAllByIds(Iterable<Long> ids) {
     return (List<Usuario>) repository.findAllById(ids);
   }

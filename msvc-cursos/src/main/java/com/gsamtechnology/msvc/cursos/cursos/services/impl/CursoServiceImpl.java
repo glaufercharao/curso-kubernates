@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class CursoServiceImpl implements CursoService {
   @Autowired
@@ -20,16 +22,19 @@ public class CursoServiceImpl implements CursoService {
   @Autowired
   private UsuarioClientRest clientRest;
   @Override
+  @Transactional(readOnly = true)
   public List<Curso> findAll() {
     return (List<Curso>) repository.findAll();
   }
 
   @Override
+  @Transactional(readOnly = true)
   public Optional<Curso> findById(Long id) {
     return repository.findById(id);
   }
 
   @Override
+  @Transactional
   public Curso save(Curso curso) {
     if(curso.getId() != null){
       Optional<Curso> cursoDB = findById(curso.getId());
@@ -43,8 +48,15 @@ public class CursoServiceImpl implements CursoService {
   }
 
   @Override
+  @Transactional
   public void delete(Long id) {
     repository.deleteById(id);
+  }
+
+  @Override
+  @Transactional
+  public void deleteCursoUsuarioById(Long id) {
+    repository.deleteCursoUsuarioById(id);
   }
 
   @Override
@@ -100,7 +112,27 @@ public class CursoServiceImpl implements CursoService {
       repository.save(curso.get());
       return Optional.of(usuarioMsvcNovo);
     }catch (FeignException.FeignClientException exception){
-      throw new RuntimeException("Erro de comunicação com cliente: "+exception.getMessage());
+      throw new RuntimeException("Erro de comunicação com cliente: " + exception.getMessage());
     }
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Optional<Curso> findAllUsersByIds(Long id) {
+    Optional<Curso> curso = repository.findById(id);
+    if (!curso.isPresent()){
+      throw new RuntimeException("Erro em buscar todos usuarios");
+    }
+    if (!curso.get().getCursoUsuarios().isEmpty()){
+      List<Long> ids = curso.get().getCursoUsuarios().stream()
+              .map(cu -> cu.getUsuarioId()).collect(Collectors.toList());
+      try {
+        List<Usuario> usuarios = clientRest.getAllByIds(ids);
+        curso.get().setUsuarios(usuarios);
+      }catch (FeignException feignException){
+        throw new RuntimeException("Erro de comunicação com cliente: " + feignException.getMessage());
+      }
+    }
+    return curso;
   }
 }

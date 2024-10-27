@@ -11,8 +11,10 @@ public interface CursoService {
   Optional<Curso> findById(Long id);
   Curso save(Curso curso);
   void delete(Long id);
+  void deleteCursoUsuarioById(Long id);
 
   Optional<Usuario> associateUser(Usuario usuario, Long courseId);
   Optional<Usuario> disassociateUser(Usuario usuario, Long courseId);
   Optional<Usuario> createUser(Usuario usuario, Long courseId);
+  Optional<Curso> findAllUsersByIds(Long id);
 }

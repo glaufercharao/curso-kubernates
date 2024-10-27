@@ -74,4 +74,9 @@ public class CursoController {
   public ResponseEntity<?> createUser(@RequestBody Usuario usuario, @PathVariable Long cursoId){
     return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(usuario, cursoId));
   }
+  @DeleteMapping("deletar-usuario/{id}")
+  public ResponseEntity<?> deleteCursoUsuarioById(@PathVariable Long id){
+      service.deleteCursoUsuarioById(id);
+      return ResponseEntity.noContent().build();
+  }
 }
