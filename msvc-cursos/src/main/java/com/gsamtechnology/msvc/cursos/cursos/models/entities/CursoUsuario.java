@@ -3,11 +3,12 @@ package com.gsamtechnology.msvc.cursos.cursos.models.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tb.cursos_usuarios")
-public class CursoUsuario {
+public class CursoUsuario implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

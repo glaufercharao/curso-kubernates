@@ -24,8 +24,12 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> getAll(){
       return ResponseEntity.ok(service.findAll());
     }
+  @GetMapping("/por-curso")
+  public ResponseEntity<List<Usuario>> getAllByIds(@RequestParam List<Long> ids){
+      return ResponseEntity.ok(service.findAllByIds(ids));
+  }
 
-    @GetMapping("/{id}")
+  @GetMapping("/{id}")
     public ResponseEntity<Usuario> getById(@PathVariable Long id){
       return ResponseEntity.status(HttpStatus.OK).body(service.findById(id).orElseThrow(RuntimeException::new));
     }

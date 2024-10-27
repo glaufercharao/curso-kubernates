@@ -1,5 +1,6 @@
 package com.gsamtechnology.msvc.cursos.cursos.controllers;
 
+import com.gsamtechnology.msvc.cursos.cursos.models.Usuario;
 import com.gsamtechnology.msvc.cursos.cursos.models.entities.Curso;
 import com.gsamtechnology.msvc.cursos.cursos.services.CursoService;
 import jakarta.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/v1/api/cursos")
@@ -55,7 +57,21 @@ public class CursoController {
 
     private Map<String, String> listErrors(BindingResult result){
         Map<String, String> errors = new HashMap<>();
-        result.getFieldErrors().forEach( fieldError -> errors.put(fieldError.getField(), "O campo "+ fieldError.getField()+ " "+ fieldError.getDefaultMessage()));
+        result.getFieldErrors().forEach( fieldError ->
+            errors.put(fieldError.getField(), "O campo "+ fieldError.getField()+ " "+ fieldError.getDefaultMessage()));
       return errors;
     }
+    @PutMapping("/associar-usuario/{cursoId}")
+    public ResponseEntity<?> associateUser(@RequestBody Usuario usuario, @PathVariable Long cursoId){
+      return ResponseEntity.status(HttpStatus.CREATED).body(service.associateUser(usuario, cursoId));
+    }
+
+  @DeleteMapping("/desassociar-usuario/{cursoId}")
+  public ResponseEntity<?> disassociateUser(@RequestBody Usuario usuario, @PathVariable Long cursoId){
+    return ResponseEntity.status(HttpStatus.OK).body(service.disassociateUser(usuario, cursoId));
+  }
+  @PostMapping("/criar-usuario/{cursoId}")
+  public ResponseEntity<?> createUser(@RequestBody Usuario usuario, @PathVariable Long cursoId){
+    return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(usuario, cursoId));
+  }
 }

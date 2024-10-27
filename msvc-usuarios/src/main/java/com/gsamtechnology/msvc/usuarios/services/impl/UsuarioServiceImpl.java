@@ -3,6 +3,7 @@ package com.gsamtechnology.msvc.usuarios.services.impl;
 import com.gsamtechnology.msvc.usuarios.models.entities.Usuario;
 import com.gsamtechnology.msvc.usuarios.repositories.UsuarioRepository;
 import com.gsamtechnology.msvc.usuarios.services.UsuarioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
+  @Autowired
   private UsuarioRepository repository;
   @Override
   @Transactional(readOnly = true)
@@ -26,7 +28,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
   @Override
   public Optional<Usuario> findByEmail(String email) {
-    return repository.findUsuarioByEmail(email);
+    return repository.findByEmail(email);
   }
 
   @Override
@@ -49,5 +51,10 @@ public class UsuarioServiceImpl implements UsuarioService {
   @Transactional
   public void delete(Long id) {
     repository.deleteById(id);
+  }
+
+  @Override
+  public List<Usuario> findAllByIds(Iterable<Long> ids) {
+    return (List<Usuario>) repository.findAllById(ids);
   }
 }

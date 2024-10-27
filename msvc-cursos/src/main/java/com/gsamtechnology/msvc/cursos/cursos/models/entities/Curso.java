@@ -4,12 +4,13 @@ import com.gsamtechnology.msvc.cursos.cursos.models.Usuario;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "tb.cursos")
-public class Curso {
+public class Curso implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

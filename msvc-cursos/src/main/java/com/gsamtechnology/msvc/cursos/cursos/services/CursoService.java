@@ -1,5 +1,6 @@
 package com.gsamtechnology.msvc.cursos.cursos.services;
 
+import com.gsamtechnology.msvc.cursos.cursos.models.Usuario;
 import com.gsamtechnology.msvc.cursos.cursos.models.entities.Curso;
 
 import java.util.List;
@@ -10,4 +11,8 @@ public interface CursoService {
   Optional<Curso> findById(Long id);
   Curso save(Curso curso);
   void delete(Long id);
+
+  Optional<Usuario> associateUser(Usuario usuario, Long courseId);
+  Optional<Usuario> disassociateUser(Usuario usuario, Long courseId);
+  Optional<Usuario> createUser(Usuario usuario, Long courseId);
 }
